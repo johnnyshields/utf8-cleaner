@@ -46,13 +46,11 @@ describe UTF8Cleaner::Middleware do
       it { expect(new_env['REQUEST_URI']).to eq('%C3%89%E2%9C%93') }
     end
 
-    describe 'when rack.input is wrapped' do
-      # rack.input responds only to methods gets, each, rewind, read and close
-      # Rack::Lint::InputWrapper is the class which servers wrappers are based on
-      it 'removes invalid UTF-8 sequences' do
-        wrapped_rack_input = Rack::Lint::Wrapper::InputWrapper.new(StringIO.new('foo=%FFbar%F8'))
-        env['rack.input'] = wrapped_rack_input
-        new_env = described_class.new(nil).send(:sanitize_env, env)
+    describe "when rack.input is wrapped" do
+      it "removes invalid UTF-8 sequences" do
+        wrapped_rack_input = Rack::Lint::Wrapper::InputWrapper.new(StringIO.new("foo=%FFbar%F8"))
+        env.merge!('rack.input' => wrapped_rack_input)
+        new_env = Middleware.new(nil).send(:sanitize_env, env)
         expect(new_env['rack.input'].read).to eq('foo=bar')
       end
     end

@@ -1,9 +1,7 @@
 # UTF8Cleaner
 
-[![Build Status](https://secure.travis-ci.org/singlebrook/utf8-cleaner.png?branch=master)](http://travis-ci.org/singlebrook/utf8-cleaner)
-
 Rack middleware to remove invalid UTF-8 characters from the environment so that your
-app doesn't choke them. Prevents errors like "invalid byte sequence in UTF-8".
+app doesn't choke on them. Prevents errors like "invalid byte sequence in UTF-8".
 
 ## Installation
 
